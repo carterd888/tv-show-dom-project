@@ -1,13 +1,12 @@
-//You can edit ALL of the code here
+const allEpisodes = getAllEpisodes();
 function setup() {
-  const allEpisodes = getAllEpisodes();
-  // makePageForEpisodes(allEpisodes);
+  makePageForEpisodes(allEpisodes);
   getEpisodeData(allEpisodes, generateEpisodeCode);
 }
 
 function makePageForEpisodes(episodeList) {
   let rootElem = document.getElementById("root");
-  rootElem.textContent = `Got ${episodeList.length} episode(s)`;
+  rootElem.textContent = `Got ${episodeList.length}/73 episode(s)`;
 }
 
 function getEpisodeData(episodeList, generateEpisodeCode) {
@@ -56,8 +55,33 @@ function generateEpisodeCode(seasonNum, episodeNum) {
     episodeNum = "0" + episodeNum;
   }
   return `S${seasonNum}E${episodeNum}`;
-
 }
+
+
+  let siteSearch = document.getElementById("siteSearch");
+  siteSearch.addEventListener("keyup", (event) => {
+    let inputData = event.target.value;
+    let filteredSearch = inputData.toUpperCase();
+    console.log(filteredSearch);
+    let filteredEpisodes = [];
+    allEpisodes.forEach(episode => {
+      if (episode.name.toUpperCase().includes(filteredSearch) ||
+        episode.summary.toUpperCase().includes(filteredSearch)) {
+        filteredEpisodes.push(episode);
+      }  
+      makePageForEpisodes(filteredEpisodes); 
+      getEpisodeData(filteredEpisodes, generateEpisodeCode);
+    });
+
+    
+    })
+
+  
+  
+
+
+
+
 
 
 window.onload = setup;
