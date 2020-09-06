@@ -9,7 +9,8 @@ function makePageForEpisodes(episodeList) {
   if(episodeList.length === undefined) {
     rootElem.textContent = " ";
   } else {
-    rootElem.textContent = `Got ${episodeList.length}/73 episode(s)`;
+    rootElem.innerHTML = `Got ${episodeList.length}/73 episode(s)`;
+    // rootElem.style.width = "100%";
   }
 }
 
@@ -19,30 +20,39 @@ siteSelect.addEventListener("change", (event) => {
   makePageForEpisodes(indexEpisode); 
 
   let rootElem = document.getElementById("root");
-  let createCard = document.createElement("p");
+  let createCard = document.createElement("div");
+  createCard.classList.add("card");
+  let nameEl = document.createElement("p");
   rootElem.appendChild(createCard);
-  createCard.textContent = indexEpisode.name;
+  createCard.appendChild(nameEl);
+  nameEl.textContent = indexEpisode.name;
 
   let showCode = document.createElement("p");
-  createCard.appendChild(showCode);
+  nameEl.appendChild(showCode);
   showCode.textContent = generateEpisodeCode(indexEpisode.season, indexEpisode.number);
 
   let imgLink = document.createElement("a");
   imgLink.href = indexEpisode.url;
   imgLink.title = "click for original data";
-  createCard.appendChild(imgLink);
+  nameEl.appendChild(imgLink);
 
   let imgEl = document.createElement("img");
   imgEl.src = indexEpisode.image.medium;
   imgLink.appendChild(imgEl);
 
   let summaryText = document.createElement("p");
-  createCard.appendChild(summaryText);
+  nameEl.appendChild(summaryText);
   summaryText.innerHTML = indexEpisode.summary;
+  summaryText.style.fontStyle = "italic";
+  summaryText.style.margin = "0%";
+  summaryText.style.marginInlineStart = "0px";
+  summaryText.style.marginInlineEnd = "0px";
 
   let showAllButton = document.createElement("button");
   rootElem.appendChild(showAllButton);
   showAllButton.textContent = "Show all episodes";
+  showAllButton.style.display = "block";
+  showAllButton.style.width = "100%";
   showAllButton.addEventListener("click", (event) => {
     setup();
   })
@@ -57,26 +67,33 @@ function getEpisodeData(episodeList, generateEpisodeCode) {
     option.textContent = `${generateEpisodeCode(episodeList[i].season, episodeList[i].number)} - ${episodeList[i].name}`;
     siteSelect.appendChild(option);
     
-    let createCard = document.createElement("p");
+    let createCard = document.createElement("div");
+    createCard.classList.add("card");
     rootElem.appendChild(createCard);
-    createCard.textContent = episodeList[i].name;
+    let nameEl = document.createElement("p");
+    createCard.appendChild(nameEl);
+    nameEl.textContent = episodeList[i].name;
+    
 
     let showCode = document.createElement("p");
-    createCard.appendChild(showCode);
+    nameEl.appendChild(showCode);
     showCode.textContent = generateEpisodeCode(episodeList[i].season, episodeList[i].number);
 
     let imgLink = document.createElement("a");
     imgLink.href = episodeList[i].url;
     imgLink.title = "click for original data";
-    createCard.appendChild(imgLink);
+    nameEl.appendChild(imgLink);
 
     let imgEl = document.createElement("img");
     imgEl.src = episodeList[i].image.medium;
     imgLink.appendChild(imgEl);
 
     let summaryText = document.createElement("p");
-    createCard.appendChild(summaryText);
+    nameEl.appendChild(summaryText);
     summaryText.innerHTML = episodeList[i].summary;
+    summaryText.style.fontStyle = "italic";
+    summaryText.style.marginInlineStart = "0px";
+    summaryText.style.marginInlineEnd = "0px";
   };
   let originalContent = document.createElement("p");
   rootElem.appendChild(originalContent);
