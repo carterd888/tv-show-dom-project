@@ -1,19 +1,24 @@
+// global variable for use in all functions, generates episodes from in file
 const allEpisodes = getAllEpisodes();
+
+// called on load, with all episode data
 function setup() {
   makePageForEpisodes(allEpisodes);
   getEpisodeData(allEpisodes, generateEpisodeCode);
 }
 
+// shows blank when undefined length (used when selecting from drop down)
+// shows how many episodes are in the list (used for filtering episodes with search)
 function makePageForEpisodes(episodeList) {
   let rootElem = document.getElementById("root");
   if(episodeList.length === undefined) {
     rootElem.textContent = " ";
   } else {
     rootElem.innerHTML = `Got ${episodeList.length}/73 episode(s)`;
-    // rootElem.style.width = "100%";
   }
 }
 
+// drop down list for episodes makes a page containing episode at specific index
 let siteSelect = document.getElementById("siteSelect");
 siteSelect.addEventListener("change", (event) => {
  let indexEpisode = allEpisodes[siteSelect.value];
@@ -58,6 +63,7 @@ siteSelect.addEventListener("change", (event) => {
   })
 })
 
+// function to populate data on the page
 function getEpisodeData(episodeList, generateEpisodeCode) {
   let rootElem = document.getElementById("root");
 
@@ -95,11 +101,13 @@ function getEpisodeData(episodeList, generateEpisodeCode) {
     summaryText.style.marginInlineStart = "0px";
     summaryText.style.marginInlineEnd = "0px";
   };
+
   let originalContent = document.createElement("p");
   rootElem.appendChild(originalContent);
   originalContent.innerHTML = "Content from TVMaze.com, click image for original data";
 }
 
+// function to take season and episode and generate an episode code
 function generateEpisodeCode(seasonNum, episodeNum) {
   if (seasonNum < 10) {
     seasonNum = "0" + seasonNum;
@@ -110,6 +118,9 @@ function generateEpisodeCode(seasonNum, episodeNum) {
   return `S${seasonNum}E${episodeNum}`;
 }
 
+// search box updates every time a key is released, converts all strings to uppercase so not case sensitive
+// populates a new array with episodes that contain search contents in either episode name or summary
+// redraws the page using the new filtered array
   let siteSearch = document.getElementById("siteSearch");
   siteSearch.addEventListener("keyup", (event) => {
     let inputData = event.target.value;
@@ -125,4 +136,6 @@ function generateEpisodeCode(seasonNum, episodeNum) {
     });
     })
 
+
+// calls setup when widows loads    
 window.onload = setup;
