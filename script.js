@@ -1,10 +1,24 @@
 // global variable for use in all functions, generates episodes from in file
-const allEpisodes = getAllEpisodes();
+// const allEpisodes = getAllEpisodes();
+let allEpisodes;
+
+async function getAllEpis() {
+  try {
+  const response = await fetch("https://api.tvmaze.com/shows/82/episodes");
+  const data = await response.json();
+  allEpisodes = data;   
+  console.log("all episodes are", allEpisodes);
+  } catch (error) {
+    console.error(error);
+  }
+} 
 
 // called on load, with all episode data
-function setup() {
+async function setup() {
+  await getAllEpis();
   makePageForEpisodes(allEpisodes);
   getEpisodeData(allEpisodes, generateEpisodeCode);
+  
 }
 
 // shows blank when undefined length (used when selecting from drop down)
