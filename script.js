@@ -1,13 +1,15 @@
 // global variable for use in all functions, generates episodes from in file
 // const allEpisodes = getAllEpisodes();
 let allEpisodes;
+let showAllEpisodes;
+let url = "https://api.tvmaze.com/shows/82/episodes";
 
-async function getAllEpis() {
+async function getAllEpis(url) {
   try {
-  const response = await fetch("https://api.tvmaze.com/shows/82/episodes");
+  const response = await fetch(url);
   const data = await response.json();
   allEpisodes = data;   
-  console.log("all episodes are", allEpisodes);
+  // console.log("all episodes are", allEpisodes);
   } catch (error) {
     console.error(error);
   }
@@ -15,10 +17,9 @@ async function getAllEpis() {
 
 // called on load, with all episode data
 async function setup() {
-  await getAllEpis();
+  await getAllEpis(url);
   makePageForEpisodes(allEpisodes);
   getEpisodeData(allEpisodes, generateEpisodeCode);
-  
 }
 
 // shows blank when undefined length (used when selecting from drop down)
@@ -28,17 +29,26 @@ function makePageForEpisodes(episodeList) {
   if(episodeList.length === undefined) {
     rootElem.textContent = " ";
   } else {
-    rootElem.innerHTML = `Got ${episodeList.length}/73 episode(s)`;
+    rootElem.innerHTML = `Got ${episodeList.length}/${allEpisodes.length}`;
   }
 }
 
 // drop down list for episodes makes a page containing episode at specific index
 let siteSelect = document.getElementById("siteSelect");
+
+function clearDropdown (dropdownElement) {
+    while (dropdownElement.options.length > 0) {                
+        dropdownElement.remove(0);
+    }        
+}
+
 siteSelect.addEventListener("change", (event) => {
+  
  let indexEpisode = allEpisodes[siteSelect.value];
-  makePageForEpisodes(indexEpisode); 
+  // makePageForEpisodes(indexEpisode); 
 
   let rootElem = document.getElementById("root");
+  rootElem.textContent = " ";
   let createCard = document.createElement("div");
   createCard.classList.add("card");
   let nameEl = document.createElement("p");
@@ -149,6 +159,26 @@ function generateEpisodeCode(seasonNum, episodeNum) {
       getEpisodeData(filteredEpisodes, generateEpisodeCode);
     });
     })
+
+let showSelect = document.getElementById("showSelect");
+  let allShows = getAllShows();
+  console.log("all shows are:", allShows);
+
+
+for (let i = 0; i < allShows.length; i++) {
+  let option = document.createElement("option");
+  option.value = i;
+  option.textContent = `${allShows[i].name}`;
+  showSelect.appendChild(option);
+}
+showSelect.addEventListener("change", (event) => {
+  clearDropdown(siteSelect);
+  let rootElem = document.getElementById("root");
+  let show = allShows[showSelect.value];
+  url = `https://api.tvmaze.com/shows/${show.id}/episodes`;
+  setup();
+  
+});
 
 
 // calls setup when widows loads    
