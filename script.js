@@ -5,6 +5,10 @@ let showAllEpisodes;
 let url = "https://api.tvmaze.com/shows/82/episodes";
 let allShows = getAllShows();
 
+function setup() {
+  displayAllShows(allShows);
+}; 
+
 function getAllEpis(url) {
   fetch(url)
   .then(response => {
@@ -19,7 +23,7 @@ console.error(error);
   })
   };
 
-  getAllEpis(url);
+  // getAllEpis(url);
 
   function displayAllShows(episodeList) {
    let rootElem = document.getElementById("root");
@@ -34,11 +38,16 @@ console.error(error);
     nameEl.textContent = episodeList[i].name;
 
     let imgLink = document.createElement("a");
-    imgLink.href = episodeList[i].url;
-    imgLink.title = "click for original data";
+    imgLink.title = "click for more episodes";
     nameEl.appendChild(imgLink);
 
     let imgEl = document.createElement("img");
+    imgEl.addEventListener("click", (event) => {
+        url = `https://api.tvmaze.com/shows/${episodeList[i].id}/episodes`;
+        let rootElem = document.getElementById("root");
+        rootElem.textContent = " ";
+        getAllEpis(url);
+    })
     if (episodeList[i].image === null) {
       imgEl.src =
         "https://tvguide1.cbsistatic.com/www/img/tvg-showcard-placeholder.jpg";
@@ -231,8 +240,31 @@ showSelect.addEventListener("change", (event) => {
   url = `https://api.tvmaze.com/shows/${show.id}/episodes`;
   let rootElem = document.getElementById("root");
   rootElem.textContent = " ";
-
-  console.log(url);
   getAllEpis(url);
-  // getEpisodeData(allEpisodes, generateEpisodeCode);
 });
+
+//  let freeSearch = document.getElementById("freeSearch");
+//       freeSearch.addEventListener("keyup", (event) => {
+//         let inputData = event.target.value;
+//         let filteredSearch = inputData.toUpperCase();
+//         let filteredShows = [];
+//         allShows.forEach((show) => {
+//           if (
+//             show.name.toUpperCase().includes(filteredSearch) ||
+//             show.genres[0].toUpperCase().includes(filteredSearch) ||
+//             show.genres[1].toUpperCase().includes(filteredSearch) ||
+//             show.genres[2].toUpperCase().includes(filteredSearch) ||
+//             show.summary.toUpperCase().includes(filteredSearch)
+//           ) {
+//             filteredShows.push(show);
+//           }
+//           let rootElem = document.getElementById("root");
+//           rootElem.textContent = " ";
+//            displayAllShows(filteredShows);
+//         });
+//       });
+
+
+
+// calls setup when widows loads    
+window.onload = setup;
