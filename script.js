@@ -23,8 +23,6 @@ console.error(error);
   })
   };
 
-  // getAllEpis(url);
-
   function displayAllShows(episodeList) {
    let rootElem = document.getElementById("root");
 
@@ -225,7 +223,6 @@ function generateEpisodeCode(seasonNum, episodeNum) {
     });
     })
 
-// shows blank when undefined length (used when selecting from drop down)
 // shows how many episodes are in the list (used for filtering episodes with search)
 function makePageForEpisodes(episodeList) {
   let rootElem = document.getElementById("root");
@@ -254,12 +251,16 @@ showSelect.addEventListener("change", (event) => {
 //         let inputData = event.target.value;
 //         let filteredSearch = inputData.toUpperCase();
 //         let filteredShows = [];
-//         allShows.forEach((show) => {
+//         allShows.forEach((show, index) => {
+//           console.log(show);
+// let genresSearch;
+//           show.genres.forEach((genre) => {
+//               genresSearch = genre.toUpperCase().includes(filteredSearch);
+//             } ) 
+
 //           if (
+//             genresSearch ||
 //             show.name.toUpperCase().includes(filteredSearch) ||
-//             show.genres[0].toUpperCase().includes(filteredSearch) ||
-//             show.genres[1].toUpperCase().includes(filteredSearch) ||
-//             show.genres[2].toUpperCase().includes(filteredSearch) ||
 //             show.summary.toUpperCase().includes(filteredSearch)
 //           ) {
 //             filteredShows.push(show);
