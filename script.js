@@ -144,6 +144,12 @@ siteSelect.addEventListener("change", (event) => {
 
 // function to populate data on the page
 function getEpisodeData(episodeList, generateEpisodeCode) {
+  let buttonElem = document.getElementById("showsListing");
+  buttonElem.addEventListener("click", (event) => {
+    rootElem = document.getElementById("root");
+    rootElem.textContent = " ";
+    displayAllShows(allShows);
+  })
   let rootElem = document.getElementById("root");
 
   for(let i = 0; i < episodeList.length; i++) {
