@@ -230,11 +230,26 @@ function makePageForEpisodes(episodeList) {
 }
 
 let showSelect = document.getElementById("showSelect");
+let sortedAllShows = allShows.sort(compare);
 for (let i = 0; i < allShows.length; i++) {
   let option = document.createElement("option");
   option.value = i;
   option.textContent = `${allShows[i].name}`;
   showSelect.appendChild(option);
+}
+
+function compare(a, b) {
+  // Use toUpperCase() to ignore character casing
+  const nameA = a.name.toUpperCase();
+  const nameB = b.name.toUpperCase();
+
+  let comparison = 0;
+  if (nameA > nameB) {
+    comparison = 1;
+  } else if (nameA < nameB) {
+    comparison = -1;
+  }
+  return comparison;
 }
 
 showSelect.addEventListener("change", (event) => {
