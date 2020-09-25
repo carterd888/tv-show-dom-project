@@ -261,30 +261,17 @@ showSelect.addEventListener("change", (event) => {
   getAllEpis(url);
 });
 
-//  let freeSearch = document.getElementById("freeSearch");
-//       freeSearch.addEventListener("keyup", (event) => {
-//         let inputData = event.target.value;
-//         let filteredSearch = inputData.toUpperCase();
-//         let filteredShows = [];
-//         allShows.forEach((show, index) => {
-//           console.log(show);
-// let genresSearch;
-//           show.genres.forEach((genre) => {
-//               genresSearch = genre.toUpperCase().includes(filteredSearch);
-//             } ) 
-
-//           if (
-//             genresSearch ||
-//             show.name.toUpperCase().includes(filteredSearch) ||
-//             show.summary.toUpperCase().includes(filteredSearch)
-//           ) {
-//             filteredShows.push(show);
-//           }
-//           let rootElem = document.getElementById("root");
-//           rootElem.textContent = " ";
-//            displayAllShows(filteredShows);
-//         });
-//       });
+ let freeSearch = document.getElementById("freeSearch");
+      freeSearch.addEventListener("keyup", (event) => {
+        let inputData = event.target.value;
+const result = allShows.filter((word) =>   
+word.name.toUpperCase().includes(inputData.toUpperCase()) 
+|| word.genres.includes(inputData.toUpperCase()) 
+|| word.summary.toUpperCase().includes(inputData.toUpperCase()))
+let rootElem = document.getElementById("root");
+          rootElem.textContent = " ";
+           displayAllShows(result);
+      });
 
 
 
