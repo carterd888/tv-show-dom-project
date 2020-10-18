@@ -5,10 +5,13 @@ let showAllEpisodes;
 let url = "https://api.tvmaze.com/shows/82/episodes";
 let allShows = getAllShows();
 
+
+//called on load, displays all shows
 function setup() {
   displayAllShows(allShows);
 }; 
 
+//fetch api data based on url and re-draw page
 function getAllEpis(url) {
   fetch(url)
   .then(response => {
@@ -23,6 +26,7 @@ console.error(error);
   })
   };
 
+  //function to display all tv shows when page first loads
   function displayAllShows(episodeList) {
    let rootElem = document.getElementById("root");
 
@@ -78,17 +82,18 @@ console.error(error);
      summaryText.style.marginInlineEnd = "0px";
 }};
 
-   let siteSelect = document.getElementById("siteSelect");
+
+//function to clear dropdown 
 function clearDropdown (dropdownElement) {
-    while (dropdownElement.options.length > 0) {                
-        dropdownElement.remove(0);
-    }        
+  while (dropdownElement.options.length > 0) {                
+    dropdownElement.remove(0);
+  }        
 }
 
+//creates page for 1 episode from drop down
+let siteSelect = document.getElementById("siteSelect");
 siteSelect.addEventListener("change", (event) => {
   let indexEpisode = allEpisodes[siteSelect.value];
-  // makePageForEpisodes(indexEpisode);
-
   let rootElem = document.getElementById("root");
   rootElem.textContent = " ";
   let createCard = document.createElement("div");
@@ -127,6 +132,8 @@ siteSelect.addEventListener("change", (event) => {
   summaryText.style.marginInlineStart = "0px";
   summaryText.style.marginInlineEnd = "0px";
 
+
+  //button to return to all episodes
   let showAllButton = document.createElement("button");
   rootElem.appendChild(showAllButton);
   showAllButton.textContent = "Show all episodes";
@@ -136,7 +143,6 @@ siteSelect.addEventListener("change", (event) => {
     let rootElem = document.getElementById("root");
     rootElem.textContent = " ";
     getAllEpis(url);
-    // setup();
   });
 });
 
@@ -162,7 +168,6 @@ function getEpisodeData(episodeList, generateEpisodeCode) {
     let nameEl = document.createElement("p");
     createCard.appendChild(nameEl);
     nameEl.textContent = episodeList[i].name;
-    
 
     let showCode = document.createElement("p");
     nameEl.appendChild(showCode);
@@ -229,6 +234,7 @@ function makePageForEpisodes(episodeList) {
   rootElem.innerHTML = `Got ${episodeList.length}/${allEpisodes.length}`;
 }
 
+// populates drop down with shows name
 let showSelect = document.getElementById("showSelect");
 for (let i = 0; i < allShows.length; i++) {
   let option = document.createElement("option");
@@ -237,6 +243,7 @@ for (let i = 0; i < allShows.length; i++) {
   showSelect.appendChild(option);
 }
 
+//clears episode drop down, when a show is clicked calls get all epis with that url
 showSelect.addEventListener("change", (event) => {
   clearDropdown(siteSelect);
   let show = allShows[showSelect.value];
@@ -245,33 +252,6 @@ showSelect.addEventListener("change", (event) => {
   rootElem.textContent = " ";
   getAllEpis(url);
 });
-
-//  let freeSearch = document.getElementById("freeSearch");
-//       freeSearch.addEventListener("keyup", (event) => {
-//         let inputData = event.target.value;
-//         let filteredSearch = inputData.toUpperCase();
-//         let filteredShows = [];
-//         allShows.forEach((show, index) => {
-//           console.log(show);
-// let genresSearch;
-//           show.genres.forEach((genre) => {
-//               genresSearch = genre.toUpperCase().includes(filteredSearch);
-//             } ) 
-
-//           if (
-//             genresSearch ||
-//             show.name.toUpperCase().includes(filteredSearch) ||
-//             show.summary.toUpperCase().includes(filteredSearch)
-//           ) {
-//             filteredShows.push(show);
-//           }
-//           let rootElem = document.getElementById("root");
-//           rootElem.textContent = " ";
-//            displayAllShows(filteredShows);
-//         });
-//       });
-
-
 
 // calls setup when widows loads    
 window.onload = setup;
