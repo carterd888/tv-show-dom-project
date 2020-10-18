@@ -154,8 +154,8 @@ function getEpisodeData(episodeList, generateEpisodeCode) {
     rootElem.textContent = " ";
     displayAllShows(allShows);
   })
-  let rootElem = document.getElementById("root");
 
+  let rootElem = document.getElementById("root");
   for(let i = 0; i < episodeList.length; i++) {
     let option = document.createElement("option");
     option.value = i;
@@ -236,6 +236,7 @@ function makePageForEpisodes(episodeList) {
 
 // populates drop down with shows name
 let showSelect = document.getElementById("showSelect");
+let sortedAllShows = allShows.sort(compare);
 for (let i = 0; i < allShows.length; i++) {
   let option = document.createElement("option");
   option.value = i;
@@ -243,7 +244,20 @@ for (let i = 0; i < allShows.length; i++) {
   showSelect.appendChild(option);
 }
 
-//clears episode drop down, when a show is clicked calls get all epis with that url
+function compare(a, b) {
+  // Use toUpperCase() to ignore character casing
+  const nameA = a.name.toUpperCase();
+  const nameB = b.name.toUpperCase();
+
+  let comparison = 0;
+  if (nameA > nameB) {
+    comparison = 1;
+  } else if (nameA < nameB) {
+    comparison = -1;
+  }
+  return comparison;
+}
+
 showSelect.addEventListener("change", (event) => {
   clearDropdown(siteSelect);
   let show = allShows[showSelect.value];
@@ -252,6 +266,18 @@ showSelect.addEventListener("change", (event) => {
   rootElem.textContent = " ";
   getAllEpis(url);
 });
+
+ let freeSearch = document.getElementById("freeSearch");
+      freeSearch.addEventListener("keyup", (event) => {
+        let inputData = event.target.value;
+const result = allShows.filter((word) =>   
+word.name.toUpperCase().includes(inputData.toUpperCase()) 
+|| word.genres.includes(inputData.toUpperCase()) 
+|| word.summary.toUpperCase().includes(inputData.toUpperCase()))
+let rootElem = document.getElementById("root");
+          rootElem.textContent = " ";
+           displayAllShows(result);
+      });
 
 // calls setup when widows loads    
 window.onload = setup;
