@@ -244,6 +244,7 @@ for (let i = 0; i < allShows.length; i++) {
   showSelect.appendChild(option);
 }
 
+// function to compare names
 function compare(a, b) {
   // Use toUpperCase() to ignore character casing
   const nameA = a.name.toUpperCase();
